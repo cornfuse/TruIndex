@@ -9,7 +9,9 @@ use Validator;
 class UserAuthService implements UserAuthServiceInterface
 {
     public function create_user(Request $request){
-        $validator = Validator::make($request->all(),[]);
+        $validator = Validator::make($request->all(),[
+            "email"=>"required|email"
+        ]);
     }
 
     public function login_user(Request $request){}
