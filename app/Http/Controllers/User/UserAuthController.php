@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\interfaces\IService\UserAuthServiceInterface;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use PHPUnit\Event\Code\Throwable;
@@ -11,14 +12,17 @@ class UserAuthController extends Controller
 {
 
     use ApiResponse;
-    public  function  __construct()
-    {
 
+    private UserAuthServiceInterface $userAuthService;
+    public  function  __construct(UserAuthServiceInterface $userAuthService)
+    {
+        $this->userAuthService = $userAuthService;
     }
 
     public function create_user(Request $request){
         try {
-
+              $result = $this->userAuthService->create_user($request);
+              return $this->success("user created successfully",$result,201);
         }catch (\Throwable $e){
             return $this->fail($e->getMessage());
         }
