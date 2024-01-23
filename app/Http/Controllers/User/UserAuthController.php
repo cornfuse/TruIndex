@@ -38,9 +38,10 @@ class UserAuthController extends Controller
 
     public function verify_user(Request $request){
         try {
-
+           $result =  $this->userAuthService->verify_user($request);
+           return $this->success("user verified successfully",$result,200);
         }catch (\Throwable $e){
-            return $this->fail($e->getMessage());
+            return $this->fail([$e->getMessage(),$e->getFile(),$e->getLine()]);
         }
     }
 

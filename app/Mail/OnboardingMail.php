@@ -9,18 +9,16 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class UserVerificationMail extends Mailable
+class OnboardingMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-
-    public $mailData;
-    public function __construct($mailData)
+    public function __construct()
     {
-        $this->mailData = $mailData;
+        //
     }
 
     /**
@@ -29,7 +27,7 @@ class UserVerificationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'User Verification Mail',
+            subject: 'Onboarding Mail',
         );
     }
 
@@ -39,7 +37,7 @@ class UserVerificationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.userverificationmail',
+            view: 'view.name',
         );
     }
 

@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(\App\Http\Controllers\User\UserAuthController::class)->group(function (){
     Route::post("create-user","create_user" );
     Route::post("login-user","login_user");
+    Route::post("verify-user","verify_user");
 });

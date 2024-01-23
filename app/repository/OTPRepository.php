@@ -28,8 +28,6 @@ class OTPRepository implements OTPRepositoryInterface
     }
     public function retrieveOTP(object $data)
     {
-
         return $this->otpModel::where('token', $data->token)->first();
-
     }
 }

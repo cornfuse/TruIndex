@@ -6,6 +6,7 @@ use App\DTO\UserDTO\CreateUserDTO;
 use App\DTO\UserDTO\LoginDTO;
 use App\interfaces\IRepository\UserAuthRepositoryInterface;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class UserAuthRepository implements UserAuthRepositoryInterface
@@ -22,5 +23,17 @@ class UserAuthRepository implements UserAuthRepositoryInterface
        ]);
     }
 
-    public function login_user(LoginDTO $data){}
+    public function login_user(LoginDTO $data){
+       $user = $this->userModel::where("email",$data->email)->first();
+
+    }
+
+    public  function verify_user(object $data)
+    {
+       #find user and update the email verified at field
+       $user = $this->userModel::find($data->user_id);
+       $user->email_verified_at = Carbon::now();
+       $user->save();
+    }
+
 }

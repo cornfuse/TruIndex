@@ -10,6 +10,8 @@ use App\DTO\UserDTO\LoginDTO;
 interface UserAuthRepositoryInterface
 {
     public function create_user(CreateUserDTO $data);
-
     public function login_user(LoginDTO $data);
+    public function verify_user(object $data);
+
+
 }
