@@ -22,4 +22,8 @@ Route::controller(\App\Http\Controllers\User\UserAuthController::class)->group(f
     Route::post("create-user","create_user" );
     Route::post("login-user","login_user");
     Route::post("verify-user","verify_user");
+    Route::post("forget-user-password","forget_password");
+    Route::post("reset-user-password","reset_password");
 });
+
+Route::get("crawled-data",[\App\Http\Controllers\Scraper\ContentController::class,'crawl_data']);

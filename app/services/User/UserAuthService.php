@@ -5,6 +5,9 @@ namespace App\services\User;
 use App\Custom\MailSender;
 use App\DTO\UserDTO\CreateOTPDTO;
 use App\DTO\UserDTO\CreateUserDTO;
+use App\DTO\UserDTO\LoginDTO;
+use App\DTO\UserDTO\UserForgetPasswordDTO;
+use App\DTO\UserDTO\UserResetPasswordDTO;
 use App\Exceptions\CustomValidationException;
 use App\interfaces\IRepository\UserAuthRepositoryInterface;
 use App\interfaces\IService\OTPServiceInterface;
@@ -65,11 +68,37 @@ class UserAuthService implements UserAuthServiceInterface
         ]);
         if($validator->fails()){
             throw new CustomValidationException($validator);
-        }
-
+         }
+        $userData = new LoginDTO($request->email,$request->password);
+        $userRepo = $this->userAuthRepository->login_user($userData);
+        return $userRepo;
     }
 
-    public function forget_password(Request $request){}
+    public function forget_password(Request $request){
+        $validator = Validator::make($request->all(),[
+            "email"=>"required|email|exists:users",
+        ]);
+        if($validator->fails()){
+            throw new CustomValidationException($validator);
+        }
 
-    public  function reset_password(Request $request){}
+        $token = Str::random(8);
+        $data = new UserForgetPasswordDTO($request->email);
+        $data->token = $token;
+
+        $userRepo = $this->userAuthRepository->forget_password($data);
+        #send forget password mail
+        MailSender::sendUserForgetPasswordMail($request->email,$token);
+    }
+
+    public  function reset_password(Request $request){
+        $validator = Validator::make($request->all(),[
+            "otp"=>"required",
+            "password"=>"required"
+        ]);
+        if($validator->fails()){
+            throw new CustomValidationException($validator);
+        }
+        $this->userAuthRepository->reset_password(new UserResetPasswordDTO(...$request->all()));
+    }
 }
