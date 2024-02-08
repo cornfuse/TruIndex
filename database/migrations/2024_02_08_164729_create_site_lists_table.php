@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('site_lists', function (Blueprint $table) {
             $table->increments('id');
-            $table->string("site_name");
-            $table->string("url");
-            $table->string("weight");
+            $table->string('site_name');
+            $table->foreignId('site_category');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

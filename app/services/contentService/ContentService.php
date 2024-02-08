@@ -20,10 +20,11 @@ class ContentService implements ContentServiceInterface {
              $content = $item['content'];
              $filteredContent = strip_tags($content);
              $moreFilteredContent = str_replace('(adsbygoogle = window.adsbygoogle || []).push({});', '', $filteredContent);
-
+             $lastFilter = str_replace("\n", "",$moreFilteredContent);
+             $trimFilter = preg_replace('/\s+/', '', $lastFilter);
              $filteredItem = [
                  "title" => $title,
-                 "content" => $moreFilteredContent
+                 "content" => $lastFilter
              ];
              array_push($filteredData, $filteredItem);
          }
